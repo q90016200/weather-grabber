@@ -28,7 +28,8 @@ cityData = {}
 # 輸出 dict
 exportData = {}
 
-opts = Options()
+# opts = Options()
+opts = webdriver.ChromeOptions()
 # opts.add_argument('--headless')  # 無頭chrome
 opts.add_argument('--disable-gpu')
 browser = webdriver.Chrome(
@@ -69,13 +70,34 @@ for select in cidSelects:
     cname = select.text
     cityData.update({cid:cname})
 
+# print(cityData)
+# browser.close()
+# exit()
 
 
 # ---------------------------------------------------
 # 處理命令行輸入的城市參數
 cityCode = "63"
+city = "臺北市"
+
+def cityToCode(city):
+    code = ""
+    # print(cityData)
+    for key in cityData:
+        if city == cityData[str(key)]:
+            city = cityData[str(key)]
+            code = key
+            break
+    return [city, code]
+
 if args.city:
-    cityCode = cityToCode(args.city)
+    cc = cityToCode(args.city)
+    city, cityCode = cc
+
+if cityCode == "":
+    print('對應不到城市')
+    browser.close()
+    exit()
 
 time.sleep(1)
 
@@ -173,8 +195,8 @@ for i in range(1, 7):
 # print(wData)
 
 exportData.update({"week": weekData})
+exportData.update({"city": cityData[cityCode]})
+exportData.update({"city_code": cityCode})
 print(json.dumps(exportData))
 
-def cityToCode(city):
-    return defaultdict(cityData).get(city, 'C63')
 
