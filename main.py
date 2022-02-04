@@ -140,7 +140,7 @@ finally:
 soup = BeautifulSoup(pageSource, 'lxml')
 soup.select("body > div.wrapper > main > div > div:nth-child(1) > div.d-xl-none.d-block > div.banner_wrap > ul > li:nth-child(1)")
 todayData = {}
-todayData['img'] = "https:// www.cwb.gov.tw/" + soup.find("img").get("src", "")
+todayData['img'] = "https://www.cwb.gov.tw/"+soup.find("img").get("src", "")
 todayData['tem'] = soup.find("span", class_="tem-C").text
 exportData.update({"today": todayData})
 
@@ -188,7 +188,7 @@ weekData = []
 for i in range(1, 7):
     data = {}
     data["date"] = soup.find("th", id="day" + str(i)).find("span").text
-    data["img"] = "https:// www.cwb.gov.tw/" + daytime.find("td", headers='day' + str(i)).find("img").get("src", "")
+    data["img"] = "https://www.cwb.gov.tw/"+daytime.find("td", headers='day' + str(i)).find("img").get("src", "")
     data["tem"] = daytime.find(
         "td", headers='day' + str(i)).find("span", class_="tem-C").text
     weekData.append(data)
